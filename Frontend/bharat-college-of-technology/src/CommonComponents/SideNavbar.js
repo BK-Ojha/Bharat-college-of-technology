@@ -43,7 +43,7 @@ export default function SideNavbar() {
             cursor: 'pointer',
           }}
           alt="Logo"
-        />
+        /> 
       </div>
 
       <hr style={{ color: 'white' }} />
@@ -233,7 +233,7 @@ export default function SideNavbar() {
                   </li>
                 
                   <li>
-                    <a href='/Take Fees' className='link-white text-white nav-link ps-4'>
+                    <a href='/TakeFees' className='link-white text-white nav-link ps-4'>
                       <MdSend/> Take Fees
                     </a>'
                   </li>

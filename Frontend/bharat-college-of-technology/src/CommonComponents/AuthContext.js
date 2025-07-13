@@ -10,12 +10,17 @@ const AuthContext = createContext()
 export const AuthProvider = ({ children }) => {
   const navigate = useNavigate()
   const [user, setUser] = useState(null)
+  const [token, setToken] = useState(localStorage.getItem('token'))
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
+    // const token = localStorage.getItem('token')
     const storedUser = localStorage.getItem('user')
     const fetchUpdatedProfile = async () => {
+      if(!token || !storedUser){
+        setLoading(false)
+        return
+      }
       try {
         const res = await ApiEndpoints.getProfileById()
         const updatedData = res.data?.profile
@@ -36,7 +41,7 @@ export const AuthProvider = ({ children }) => {
       }
     }
     fetchUpdatedProfile()
-  }, [])
+  }, [token])
 
   if (loading) {
     return <div>Loading...</div>
@@ -51,6 +56,8 @@ export const AuthProvider = ({ children }) => {
 
       if (status && data?.token && data?.user) {
         localStorage.setItem('token', data.token)
+        localStorage.setItem("user", JSON.stringify(data.user))
+        setToken(data.token)
         setUser(data.user)
         return { status, message }
       } else {
@@ -74,7 +81,7 @@ export const AuthProvider = ({ children }) => {
       if (status && data?.token && data?.id) {
         // Save token
         localStorage.setItem('token', data.token)
-
+        setToken(data.token)
         const latestProfileRes = await ApiEndpoints.getProfileById()
         const latestProfileData = latestProfileRes.data.profile
 
@@ -131,11 +138,12 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
     setUser(null)
+    setToken(null)
     navigate('/Login', { replace: true })
   }
 
   return (
-    <AuthContext.Provider value={{ user, setUser, login, logout, signup }}>
+    <AuthContext.Provider value={{ user, token, setUser, login, logout, signup }}>
       {children}
     </AuthContext.Provider>
   )
