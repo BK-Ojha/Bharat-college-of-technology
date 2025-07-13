@@ -4,6 +4,9 @@
 /node_modules
 Frontend/node_modules/
 Backend/node_modules/
+Frontend/bharat-college-of-technology/node_modules/
+Frontend/bharat-college-of-technology/package-lock.json
+
 /.pnp
 .pnp.js
 
