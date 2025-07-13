@@ -27,18 +27,13 @@ import FeesCollection from './Components/FeesCollection'
 import TakeFees from './Components/TakeFees'
 
 function App() {
-  // useLocation access the current URL location (like the path, search params, and hash) from anywhere in your app.
 
   const { user } = useAuth()
   const location = useLocation()
   const isLoginPage = location.pathname === '/Login'
   const navigate = useNavigate()
-  // ✅ Redirect unauthenticated users to login
-  if (!user && !isLoginPage) {
-    // useNavigate() is a hook, that not render anything; it just programmatically navigates
 
-    // <Navigate/> redirect immediately when it renders.
-    // Useful in components like App.js or PrivateRoute where you conditionally render something based on state or auth.
+  if (!user && !isLoginPage) {
     return <Navigate to="/Login" replace />
   }
 
@@ -102,7 +97,6 @@ function App() {
         className="d-flex"
         style={{ height: '100vh', overflow: 'hidden', marginBottom: '-2rem' }}
       >
-        {/* Only show SideNavbar and header if not on login page and user exists */}
         {!isLoginPage && user && <SideNavbar />}
 
         <div
